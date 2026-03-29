@@ -1,5 +1,7 @@
 # 🚀 CodeSync — Pro Interview IDE Platform
 
+**🔗 Live Demo:** [https://interview-platform-bitv-9bjps380h-akarshs-projects-79cac0bf.vercel.app/](https://interview-platform-bitv-9bjps380h-akarshs-projects-79cac0bf.vercel.app/)
+
 CodeSync is a high-performance, immersive interview platform designed for modern tech teams. It features a full-scale Monaco Editor (VS Code core) with integrated real-time video, audio, and code synchronization.
 
 ![CodeSync Dashboard](https://raw.githubusercontent.com/Akarshkushwaha/interview-platform/main/public/og-image.png)
