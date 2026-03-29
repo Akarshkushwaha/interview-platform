@@ -15,13 +15,27 @@ function MeetingSetup({ onSetupComplete }: { onSetupComplete: () => void }) {
   if (!call) return null;
 
   useEffect(() => {
-    if (isCameraDisabled) call.camera.disable();
-    else call.camera.enable();
+    const toggleCamera = async () => {
+      try {
+        if (isCameraDisabled) await call.camera.disable();
+        else await call.camera.enable();
+      } catch (err) {
+        console.error("Camera access error:", err);
+      }
+    };
+    toggleCamera();
   }, [isCameraDisabled, call.camera]);
 
   useEffect(() => {
-    if (isMicDisabled) call.microphone.disable();
-    else call.microphone.enable();
+    const toggleMic = async () => {
+      try {
+        if (isMicDisabled) await call.microphone.disable();
+        else await call.microphone.enable();
+      } catch (err) {
+        console.error("Microphone access error:", err);
+      }
+    };
+    toggleMic();
   }, [isMicDisabled, call.microphone]);
 
   const handleJoin = async () => {

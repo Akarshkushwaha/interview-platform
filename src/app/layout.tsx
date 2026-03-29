@@ -6,6 +6,7 @@ import { RedirectToSignIn, SignedIn, SignedOut } from "@clerk/nextjs";
 import ConvexClerkProvider from "@/components/providers/ConvexClerkProvider";
 import Navbar from "@/components/Navbar";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import SyncUserWithConvex from "@/components/providers/SyncUserWithConvex";
 import { Toaster } from "react-hot-toast";
 
 const geistSans = localFont({
@@ -41,8 +42,8 @@ export default function RootLayout({
           >
             <SignedIn>
               <div className="min-h-screen">
-                <Navbar />
-                <main className="px-4 sm:px-6 lg:px-8">{children}</main>
+                <SyncUserWithConvex />
+                {children}
               </div>
             </SignedIn>
 

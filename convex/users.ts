@@ -11,7 +11,7 @@ export const syncUser = mutation({
   handler: async (ctx, args) => {
     const existingUser = await ctx.db
       .query("users")
-      .filter((q) => q.eq(q.field("clerkId"), args.clerkId))
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", args.clerkId))
       .first();
 
     if (existingUser) return;
@@ -26,7 +26,7 @@ export const syncUser = mutation({
 export const getUsers = query({
   handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity();
-    if (!identity) throw new Error("User is not authenticated");
+    if (!identity) return [];
 
     const users = await ctx.db.query("users").collect();
 
@@ -43,5 +43,22 @@ export const getUserByClerkId = query({
       .first();
 
     return user;
+  },
+});
+
+export const updateRole = mutation({
+  args: {
+    clerkId: v.string(),
+    role: v.union(v.literal("candidate"), v.literal("interviewer")),
+  },
+  handler: async (ctx, args) => {
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", args.clerkId))
+      .first();
+
+    if (!user) throw new Error("User not found");
+
+    return await ctx.db.patch(user._id, { role: args.role });
   },
 });

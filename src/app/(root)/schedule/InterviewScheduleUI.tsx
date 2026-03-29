@@ -184,11 +184,15 @@ function InterviewScheduleUI() {
                     <SelectValue placeholder="Select candidate" />
                   </SelectTrigger>
                   <SelectContent>
-                    {candidates.map((candidate) => (
-                      <SelectItem key={candidate.clerkId} value={candidate.clerkId}>
-                        <UserInfo user={candidate} />
-                      </SelectItem>
-                    ))}
+                    {candidates.length === 0 ? (
+                      <div className="p-2 text-sm text-muted-foreground">No candidates found</div>
+                    ) : (
+                      candidates.map((candidate) => (
+                        <SelectItem key={candidate.clerkId} value={candidate.clerkId}>
+                          <UserInfo user={candidate} />
+                        </SelectItem>
+                      ))
+                    )}
                   </SelectContent>
                 </Select>
               </div>
@@ -231,7 +235,7 @@ function InterviewScheduleUI() {
               </div>
 
               {/* DATE & TIME */}
-              <div className="flex gap-4">
+              <div className="flex flex-col gap-4">
                 {/* CALENDAR */}
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Date</label>
@@ -242,10 +246,19 @@ function InterviewScheduleUI() {
                     disabled={(date) => date < new Date()}
                     className="rounded-md border"
                   />
+                  {formData.date && (
+                    <p className="text-xs text-muted-foreground ml-1 ring-1 ring-emerald-500/20 bg-emerald-500/5 px-2 py-1 rounded-md inline-block">
+                      Selected: {formData.date.toLocaleDateString("en-US", {
+                        weekday: 'short',
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric'
+                      })}
+                    </p>
+                  )}
                 </div>
 
                 {/* TIME */}
-
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Time</label>
                   <Select
@@ -293,7 +306,7 @@ function InterviewScheduleUI() {
           <Loader2Icon className="size-8 animate-spin text-muted-foreground" />
         </div>
       ) : interviews.length > 0 ? (
-        <div className="spacey-4">
+        <div className="space-y-4">
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {interviews.map((interview) => (
               <MeetingCard key={interview._id} interview={interview} />
